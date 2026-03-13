@@ -1,0 +1,20 @@
+services:
+
+  bank:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./cobol:/app/cobol
+      - ./axis2:/app/axis2
+    command: /opt/apache-tomcat-8.5.96/bin/catalina.sh run
+    depends_on:
+      - oracle
+
+  oracle:
+    image: gvenzl/oracle-xe:21
+    environment:
+      ORACLE_PASSWORD: oracle
+    ports:
+      - "1521:1521"
