@@ -6,8 +6,9 @@ GRANT CONNECT, RESOURCE TO bank;
 ALTER SESSION SET CURRENT_SCHEMA = bank;
 
 CREATE TABLE accounts (
-    account_id VARCHAR2(10) PRIMARY KEY,
-    balance NUMBER(12,2)
+    account_id VARCHAR2(10) PRIMARY KEY UNIQUE,
+    account_name VARCHAR(30),
+    balance NUMBER(12,2),
     pass_hash RAW (256)
 );
 
