@@ -1,0 +1,9 @@
+<service name="BankService">
+    <description>Legacy Bank SOAP Service</description>
+
+    <parameter name="ServiceClass">
+        BankService
+    </parameter>
+
+    <operation name="balance"/>
+</service>
