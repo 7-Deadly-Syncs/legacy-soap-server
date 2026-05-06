@@ -11,11 +11,11 @@
        FILE SECTION.
 
        FD ACCOUNTS.
-       01 ACCOUNT-RECORD              PIC X(100).
+       01 ACCOUNT-RECORD              PIC X(200).
 
        WORKING-STORAGE SECTION.
        01 WS-NAME                     PIC X(20).
-       01 WS-PIN                      PIC X(10).
+       01 WS-PIN                      PIC X(64).
 
        01 WS-LAST-ID                  PIC 9(6) VALUE 0.
        01 WS-NEW-ID                   PIC 9(6).
@@ -24,7 +24,7 @@
 
        LINKAGE SECTION.
        01 L-NAME                      PIC X(20).
-       01 L-PIN                       PIC X(10).
+       01 L-PIN                       PIC X(64).
        01 L-RESULT                    PIC X(50).
 
        PROCEDURE DIVISION USING L-NAME L-PIN L-RESULT.
