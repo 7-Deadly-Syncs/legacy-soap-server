@@ -11,7 +11,7 @@ public class BankServiceRegister {
 
         byte[] result = new byte[50];
 
-        BankRegisterLib.INSTANCE.REGISTER(
+        BankNativeLib.REGISTER_INSTANCE.REGISTER(
             String.format("%-20s", name).getBytes(),
             String.format("%-10s", pin).getBytes(),
             result

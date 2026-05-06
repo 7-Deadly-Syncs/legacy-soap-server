@@ -1,0 +1,29 @@
+package axis2.services.BankService;
+
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+
+public interface BankNativeLib extends Library {
+
+   BankNativeLib REGISTER_INSTANCE =
+        (BankNativeLib) Native.load(
+            "/app/cobol/bin/bankRegister.so",
+            BankNativeLib.class
+        );
+
+    BankNativeLib BALANCE_INSTANCE =
+        (BankNativeLib) Native.load(
+            "/app/cobol/bin/balance.so",
+            BankNativeLib.class
+        );
+
+    void BALANCE(
+            byte[] accountId,
+            byte[] password,
+            byte[] result);
+
+    void REGISTER(
+            byte[] name,
+            byte[] pin,
+            byte[] result);
+}

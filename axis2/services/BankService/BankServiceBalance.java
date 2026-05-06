@@ -2,40 +2,23 @@ package axis2.services.BankService;
 
 public class BankServiceBalance {
 
+    static {
+        CobLib.INSTANCE.cob_init(0, new String[0]);
+    }
+
     public String balance(String accountId, String password) {
 
         try {
 
-            ProcessBuilder pb = new ProcessBuilder(
-                    "/app/cobol/bin/balance");
+            byte[] result = new byte[50];
 
-            Process p = pb.start();
+            BankNativeLib.BALANCE_INSTANCE.BALANCE(
+                String.format("%-20s", accountId).getBytes(),
+                String.format("%-10s", password).getBytes(),
+                result
+            );
 
-            java.io.BufferedWriter writer = new java.io.BufferedWriter(
-                    new java.io.OutputStreamWriter(
-                            p.getOutputStream()));
-
-            java.io.BufferedReader reader = new java.io.BufferedReader(
-                    new java.io.InputStreamReader(
-                            p.getInputStream()));
-
-            writer.write(accountId);
-            writer.newLine();
-            writer.write(password);
-            writer.newLine();
-            writer.flush();
-            writer.close();
-
-            StringBuilder output = new StringBuilder();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                output.append(line);
-            }
-
-            p.waitFor();
-
-            return output.toString();
+            return new String(result).trim();
 
         } catch (Exception e) {
             return "ERROR: " + e.getMessage();
