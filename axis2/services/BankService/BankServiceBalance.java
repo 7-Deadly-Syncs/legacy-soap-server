@@ -8,18 +8,20 @@ public class BankServiceBalance {
         CobLib.INSTANCE.cob_init(0, new String[0]);
     }
 
-    public String balance(String accountId, String password) {
+    public String balance(
+            String accountId,
+            String password) {
 
         try {
 
-            byte[] result = new byte[50];
+            byte[] result = new byte[100];
 
+            String hashedPassword =
+                HashUtil.sha256(password);
 
-            String hashedPassword = HashUtil.sha256(password);
-            
             BankNativeLib.BALANCE_INSTANCE.BALANCE(
                 String.format("%-20s", accountId).getBytes(),
-                String.format("%-10s", hashedPassword).getBytes(),
+                String.format("%-64s", hashedPassword).getBytes(),
                 result
             );
 
