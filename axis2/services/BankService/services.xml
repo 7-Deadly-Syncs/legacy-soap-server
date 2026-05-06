@@ -1,9 +1,13 @@
 <service name="BankService">
-    <description>Legacy Bank SOAP Service</description>
+    <description>
+        Bank SOAP Service
+    </description>
 
     <parameter name="ServiceClass">
-        BankService
+        axis2.services.BankService.BankServiceBalance
     </parameter>
 
-    <operation name="balance"/>
+    <operation name="balance">
+        <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    </operation>
 </service>

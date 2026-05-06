@@ -39,6 +39,10 @@ RUN mkdir -p axis2/build/tmp/META-INF && \
     cd axis2/build/tmp && \
     jar cvf ../BankService.aar *
 
+RUN cp /app/axis2/build/BankService.aar \
+	/opt/apache-tomcat-8.5.96/webapps/axis2/WEB-INF/services/BankService.aar && \
+	ls -l /opt/apache-tomcat-8.5.96/webapps/axis2/WEB-INF/services/
+
 RUN chmod +x cobol/bin/*
 
 EXPOSE 8080
