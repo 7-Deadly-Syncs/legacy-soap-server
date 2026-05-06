@@ -6,8 +6,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./cobol:/app/cobol
+      - ./cobol/src:/app/cobol/src
       - ./axis2:/app/axis2
+      - ./data:/app/data
     command: /opt/apache-tomcat-8.5.96/bin/catalina.sh run
     depends_on:
       - oracle

@@ -12,8 +12,12 @@ RUN apt-get update && \
 
 WORKDIR /opt
 
+RUN wget https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar
+
 RUN wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.96/bin/apache-tomcat-8.5.96.tar.gz && \
     tar -xzf apache-tomcat-8.5.96.tar.gz
+
+RUN cp /opt/jna-5.13.0.jar /opt/apache-tomcat-8.5.96/lib/
 
 RUN wget https://archive.apache.org/dist/axis/axis2/java/core/1.7.9/axis2-1.7.9-war.zip && \
     unzip axis2-1.7.9-war.zip && \
@@ -25,11 +29,13 @@ WORKDIR /app
 
 COPY . .
 
-RUN cobc -free -x cobol/src/balance.cbl -o cobol/bin/balance && \
-    cobc -free -x cobol/src/register.cbl -o cobol/bin/register
+RUN mkdir -p cobol/bin && \
+    cobc -free -m cobol/src/balance.cbl -o cobol/bin/balance && \
+    cobc -free -m cobol/src/bankRegister.cbl -o cobol/bin/bankRegister
 
 RUN mkdir -p axis2/build/classes && \
     javac \
+    -cp /opt/jna-5.13.0.jar \
     -d axis2/build/classes \
     axis2/services/BankService/*.java
 
@@ -41,8 +47,8 @@ RUN mkdir -p axis2/build/tmp/META-INF && \
     jar cvf ../BankService.aar *
 
 RUN cp /app/axis2/build/BankService.aar \
-	/opt/apache-tomcat-8.5.96/webapps/axis2/WEB-INF/services/BankService.aar && \
-	ls -l /opt/apache-tomcat-8.5.96/webapps/axis2/WEB-INF/services/
+    /opt/apache-tomcat-8.5.96/webapps/axis2/WEB-INF/services/BankService.aar && \
+    ls -l /opt/apache-tomcat-8.5.96/webapps/axis2/WEB-INF/services/
 
 RUN chmod +x cobol/bin/*
 
