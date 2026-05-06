@@ -7,14 +7,17 @@ public class BankServiceBalance {
         try {
 
             ProcessBuilder pb = new ProcessBuilder(
-                "/app/cobol/bin/balance"
-            );
+                    "/app/cobol/bin/balance");
 
             Process p = pb.start();
 
-            var writer = new java.io.BufferedWriter(
-                new java.io.OutputStreamWriter(p.getOutputStream())
-            );
+            java.io.BufferedWriter writer = new java.io.BufferedWriter(
+                    new java.io.OutputStreamWriter(
+                            p.getOutputStream()));
+
+            java.io.BufferedReader reader = new java.io.BufferedReader(
+                    new java.io.InputStreamReader(
+                            p.getInputStream()));
 
             writer.write(accountId);
             writer.newLine();
@@ -22,10 +25,6 @@ public class BankServiceBalance {
             writer.newLine();
             writer.flush();
             writer.close();
-
-            var reader = new java.io.BufferedReader(
-                new java.io.InputStreamReader(p.getInputStream())
-            );
 
             StringBuilder output = new StringBuilder();
             String line;
