@@ -25,12 +25,13 @@ WORKDIR /app
 
 COPY . .
 
-RUN cobc -free -x cobol/src/balance.cbl -o cobol/bin/balance
+RUN cobc -free -x cobol/src/balance.cbl -o cobol/bin/balance && \
+    cobc -free -x cobol/src/register.cbl -o cobol/bin/register
 
 RUN mkdir -p axis2/build/classes && \
     javac \
     -d axis2/build/classes \
-    axis2/services/BankService/BankServiceBalance.java
+    axis2/services/BankService/*.java
 
 RUN mkdir -p axis2/build/tmp/META-INF && \
     cp axis2/services/BankService/services.xml \

@@ -4,10 +4,15 @@
     </description>
 
     <parameter name="ServiceClass">
-        axis2.services.BankService.BankServiceBalance
+        axis2.services.BankService.BankService
     </parameter>
 
     <operation name="balance">
         <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
     </operation>
+
+    <operation name="register">
+        <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    </operation>
+
 </service>
