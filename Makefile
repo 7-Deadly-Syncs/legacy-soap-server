@@ -16,4 +16,3 @@ stop:
 
 logs:
 	docker compose logs -f
-

@@ -5,31 +5,45 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
 
-           SELECT ACCOUNT-FILE
+           SELECT ACCOUNTS
                ASSIGN TO "/app/data/accounts.dat"
                ORGANIZATION IS LINE SEQUENTIAL.
 
-           SELECT TEMP-FILE
-               ASSIGN TO "/app/data/accounts.tmp"
+           SELECT BALANCES
+               ASSIGN TO "/app/data/balances.dat"
+               ORGANIZATION IS LINE SEQUENTIAL.
+
+           SELECT TEMP-BALANCES
+               ASSIGN TO "/app/data/balances.tmp"
                ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
 
        FILE SECTION.
 
-       FD ACCOUNT-FILE.
-       01 ACCOUNT-RECORD             PIC X(200).
+       FD ACCOUNTS.
+       01 ACCOUNT-RECORD             PIC X(400).
 
-       FD TEMP-FILE.
-       01 TEMP-RECORD                PIC X(200).
+       FD BALANCES.
+       01 BALANCE-RECORD             PIC X(100).
+
+       FD TEMP-BALANCES.
+       01 TEMP-BALANCE-RECORD        PIC X(100).
 
        WORKING-STORAGE SECTION.
 
-       01 EOF-FLAG                   PIC X VALUE "N".
+       01 WS-EOF-ACCOUNTS            PIC X VALUE "N".
+       01 WS-EOF-BALANCES            PIC X VALUE "N".
 
-       01 WS-ACCOUNT                 PIC X(10).
-       01 WS-NAME                    PIC X(20).
+       01 WS-ACCOUNT-ID              PIC X(12).
+       01 WS-CUSTOMER-ID             PIC X(12).
+       01 WS-EMAIL                   PIC X(100).
+       01 WS-NAME                    PIC X(50).
+
+       01 WS-PASSWORD                PIC X(64).
        01 WS-PIN                     PIC X(64).
+
+       01 WS-BALANCE-ACCOUNT         PIC X(12).
 
        01 WS-BALANCE-TEXT            PIC X(20).
        01 WS-AMOUNT-TEXT             PIC X(20).
@@ -37,16 +51,18 @@
        01 WS-BALANCE                 PIC 9(9)V99.
        01 WS-AMOUNT                  PIC 9(9)V99.
 
+       01 WS-AUTHENTICATED           PIC X VALUE "N".
+
        LINKAGE SECTION.
 
        01 L-ACCOUNT-ID               PIC X(20).
-       01 L-PASSWORD                 PIC X(64).
+       01 L-PIN                      PIC X(64).
        01 L-AMOUNT                   PIC X(20).
-       01 L-RESULT                   PIC X(50).
+       01 L-RESULT                   PIC X(100).
 
        PROCEDURE DIVISION USING
            L-ACCOUNT-ID
-           L-PASSWORD
+           L-PIN
            L-AMOUNT
            L-RESULT.
 
@@ -56,68 +72,120 @@
            MOVE WS-AMOUNT-TEXT
                TO WS-AMOUNT
 
-           OPEN INPUT ACCOUNT-FILE
-           OPEN OUTPUT TEMP-FILE
+           OPEN INPUT ACCOUNTS
 
-           PERFORM UNTIL EOF-FLAG = "Y"
+           PERFORM UNTIL WS-EOF-ACCOUNTS = "Y"
 
-               READ ACCOUNT-FILE
+               READ ACCOUNTS
                    AT END
-                       MOVE "Y" TO EOF-FLAG
+                       MOVE "Y"
+                           TO WS-EOF-ACCOUNTS
 
                    NOT AT END
 
                        UNSTRING ACCOUNT-RECORD
                            DELIMITED BY "|"
                            INTO
-                               WS-ACCOUNT
+                               WS-ACCOUNT-ID
+                               WS-CUSTOMER-ID
+                               WS-EMAIL
                                WS-NAME
+                               WS-PASSWORD
                                WS-PIN
-                               WS-BALANCE-TEXT
 
-                       MOVE FUNCTION TRIM(WS-BALANCE-TEXT)
-                           TO WS-BALANCE
-
-                       IF FUNCTION TRIM(WS-ACCOUNT)
+                       IF FUNCTION TRIM(WS-ACCOUNT-ID)
                            = FUNCTION TRIM(L-ACCOUNT-ID)
 
                            IF FUNCTION TRIM(WS-PIN)
-                               = FUNCTION TRIM(L-PASSWORD)
+                               = FUNCTION TRIM(L-PIN)
 
-                               ADD WS-AMOUNT TO WS-BALANCE
-
-                               STRING
-                                   "OK|"
-                                   WS-BALANCE
-                                   INTO L-RESULT
+                               MOVE "Y"
+                                   TO WS-AUTHENTICATED
 
                            ELSE
-                               MOVE "ERR|INVALID_PIN"
+
+                               MOVE
+                                   "ERR|INVALID_PIN"
                                    TO L-RESULT
+
+                               CLOSE ACCOUNTS
+                               GOBACK
+
                            END-IF
+
+                           MOVE "Y"
+                               TO WS-EOF-ACCOUNTS
                        END-IF
-
-                       STRING
-                           FUNCTION TRIM(WS-ACCOUNT)
-                           "|"
-                           FUNCTION TRIM(WS-NAME)
-                           "|"
-                           FUNCTION TRIM(WS-PIN)
-                           "|"
-                           WS-BALANCE
-                           INTO TEMP-RECORD
-
-                       WRITE TEMP-RECORD
 
                END-READ
 
            END-PERFORM
 
-           CLOSE ACCOUNT-FILE
-           CLOSE TEMP-FILE
+           CLOSE ACCOUNTS
+
+           IF WS-AUTHENTICATED NOT = "Y"
+
+               MOVE
+                   "ERR|NO_ACCOUNT"
+                   TO L-RESULT
+
+               GOBACK
+
+           END-IF
+
+           OPEN INPUT BALANCES
+           OPEN OUTPUT TEMP-BALANCES
+
+           PERFORM UNTIL WS-EOF-BALANCES = "Y"
+
+               READ BALANCES
+                   AT END
+                       MOVE "Y"
+                           TO WS-EOF-BALANCES
+
+                   NOT AT END
+
+                       UNSTRING BALANCE-RECORD
+                           DELIMITED BY "|"
+                           INTO
+                               WS-BALANCE-ACCOUNT
+                               WS-BALANCE-TEXT
+
+                       MOVE FUNCTION TRIM(WS-BALANCE-TEXT)
+                           TO WS-BALANCE
+
+                       IF FUNCTION TRIM(WS-BALANCE-ACCOUNT)
+                           = FUNCTION TRIM(L-ACCOUNT-ID)
+
+                           ADD WS-AMOUNT
+                               TO WS-BALANCE
+
+                           STRING
+                               "OK|"
+                               FUNCTION TRIM(WS-BALANCE-ACCOUNT)
+                               "|"
+                               WS-BALANCE
+                               INTO L-RESULT
+                       END-IF
+
+                       STRING
+                           FUNCTION TRIM(WS-BALANCE-ACCOUNT)
+                           "|"
+                           WS-BALANCE
+                           INTO TEMP-BALANCE-RECORD
+
+                       WRITE TEMP-BALANCE-RECORD
+
+               END-READ
+
+           END-PERFORM
+
+           CLOSE BALANCES
+           CLOSE TEMP-BALANCES
 
            CALL "SYSTEM"
-               USING "mv /app/data/accounts.tmp /app/data/accounts.dat"
+               USING
+               "mv /app/data/balances.tmp /app/data/balances.dat"
 
            GOBACK.
 

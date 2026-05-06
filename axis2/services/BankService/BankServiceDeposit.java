@@ -10,19 +10,19 @@ public class BankServiceDeposit {
 
     public String deposit(
             String accountId,
-            String password,
+            String pin,
             String amount) {
 
         try {
 
-            byte[] result = new byte[50];
+            byte[] result = new byte[100];
 
-            String hashedPassword =
-                HashUtil.sha256(password);
+            String hashedPin =
+                HashUtil.sha256(pin);
 
             BankNativeLib.DEPOSIT_INSTANCE.DEPOSIT(
                 String.format("%-20s", accountId).getBytes(),
-                String.format("%-64s", hashedPassword).getBytes(),
+                String.format("%-64s", hashedPin).getBytes(),
                 String.format("%-20s", amount).getBytes(),
                 result
             );

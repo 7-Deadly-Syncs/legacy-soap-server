@@ -18,13 +18,12 @@ public class BankService {
 
     public String register(String name, String email, String password, String pin) {
 
-    return registerService.register(
-        name,
-        email,
-        password,
-        pin
-    );
-}
+        return registerService.register(
+                name,
+                email,
+                password,
+                pin);
+    }
 
     public String deposit(String acc, String pin, String amount) {
 
