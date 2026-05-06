@@ -5,33 +5,46 @@ import com.sun.jna.Native;
 
 public interface BankNativeLib extends Library {
 
-    BankNativeLib REGISTER_INSTANCE = (BankNativeLib) Native.load(
-            "/app/cobol/bin/bankRegister.so",
-            BankNativeLib.class);
+        BankNativeLib REGISTER_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/bankRegister.so",
+                        BankNativeLib.class);
 
-    BankNativeLib BALANCE_INSTANCE = (BankNativeLib) Native.load(
-            "/app/cobol/bin/balance.so",
-            BankNativeLib.class);
+        BankNativeLib BALANCE_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/balance.so",
+                        BankNativeLib.class);
 
-    BankNativeLib DEPOSIT_INSTANCE = (BankNativeLib) Native.load(
-            "/app/cobol/bin/deposit.so",
-            BankNativeLib.class);
+        BankNativeLib DEPOSIT_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/deposit.so",
+                        BankNativeLib.class);
 
-    void BALANCE(
-            byte[] accountId,
-            byte[] password,
-            byte[] result);
+        BankNativeLib WITHDRAW_INSTANE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/withdraw.so",
+                        BankNativeLib.class);
 
-    void REGISTER(
-            byte[] name,
-            byte[] email,
-            byte[] password,
-            byte[] pin,
-            byte[] result);
+        BankNativeLib GETBANKDETAILS_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/getBankDetails.so",
+                        BankNativeLib.class);
 
-    void DEPOSIT(
-            byte[] accountId,
-            byte[] password,
-            byte[] amount,
-            byte[] result);
+        void BALANCE(
+                        byte[] accountId,
+                        byte[] password,
+                        byte[] result);
+
+        void REGISTER(
+                        byte[] name,
+                        byte[] email,
+                        byte[] password,
+                        byte[] pin,
+                        byte[] result);
+
+        void DEPOSIT(
+                        byte[] accountId,
+                        byte[] password,
+                        byte[] amount,
+                        byte[] result);
+
+        void GETBANKDETAILS(
+                        byte[] email,
+                        byte[] password,
+                        byte[] result);
 }

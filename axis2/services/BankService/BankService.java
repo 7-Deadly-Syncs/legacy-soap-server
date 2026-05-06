@@ -5,6 +5,7 @@ package axis2.services.BankService;
 // I think its the right move, probably
 
 public class BankService {
+    private BankServiceGetBankDetails getBankDetailsService = new BankServiceGetBankDetails();
 
     private BankServiceBalance balanceService = new BankServiceBalance();
 
@@ -31,5 +32,15 @@ public class BankService {
                 acc,
                 pin,
                 amount);
+    }
+
+    public String getBankDetails(
+            String email,
+            String password) {
+
+        return getBankDetailsService
+                .getBankDetails(
+                        email,
+                        password);
     }
 }
