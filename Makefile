@@ -1,15 +1,19 @@
-init: run-detached
+init: create-data-dir run-detached
+
+create-data-dir:
+	touch data/sessions.dat
+	touch data/balances.dat
+	touch data/accounts.dat
 
 run:
-docker compose up
+	docker compose up
 
 run-detached:
-docker compose up -d
+	docker compose up -d --build
 
 stop:
-docker compose down
+	docker compose down
 
 logs:
-docker compose logs -f
+	docker compose logs -f
 
-rebuild: clean all docker-build

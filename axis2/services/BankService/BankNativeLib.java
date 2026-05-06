@@ -24,6 +24,8 @@ public interface BankNativeLib extends Library {
 
     void REGISTER(
             byte[] name,
+            byte[] email,
+            byte[] password,
             byte[] pin,
             byte[] result);
 

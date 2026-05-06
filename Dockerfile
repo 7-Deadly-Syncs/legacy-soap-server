@@ -12,9 +12,6 @@ RUN apt-get update && \
 
 WORKDIR /opt
 
-RUN touch data/sessions.cbl
-RUN touch data/accounts.cbl
-
 RUN wget https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar
 
 RUN wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.96/bin/apache-tomcat-8.5.96.tar.gz && \
@@ -60,4 +57,3 @@ RUN chmod +x cobol/bin/*
 
 EXPOSE 8080
 
-CMD ["/opt/apache-tomcat-8.5.96/bin/catalina.sh", "run"]

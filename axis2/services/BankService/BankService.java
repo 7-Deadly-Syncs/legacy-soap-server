@@ -16,8 +16,8 @@ public class BankService {
         return balanceService.balance(acc, pin);
     }
 
-    public String register(String name, String pin) {
-        return registerService.register(name, pin);
+    public String register(String email, String name, String password, String pin) {
+        return registerService.register(email, password, name, pin);
     }
 
     public String deposit(
