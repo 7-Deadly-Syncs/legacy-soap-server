@@ -16,14 +16,17 @@ public class BankService {
         return balanceService.balance(acc, pin);
     }
 
-    public String register(String email, String name, String password, String pin) {
-        return registerService.register(email, password, name, pin);
-    }
+    public String register(String name, String email, String password, String pin) {
 
-    public String deposit(
-            String acc,
-            String pin,
-            String amount) {
+    return registerService.register(
+        name,
+        email,
+        password,
+        pin
+    );
+}
+
+    public String deposit(String acc, String pin, String amount) {
 
         return depositService.deposit(
                 acc,
