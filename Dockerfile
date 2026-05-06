@@ -24,7 +24,7 @@ WORKDIR /app
 COPY . .
 
 RUN mkdir -p cobol/bin && \
-    cobc -x cobol/src/balance.cbl -o cobol/bin/balance
+    cobc -x cobol/balance.cbl -o cobol/bin/balance
 
 RUN mkdir -p axis2/build && \
     cd axis2/services/BankService && \

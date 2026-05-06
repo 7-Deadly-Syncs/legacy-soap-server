@@ -7,7 +7,7 @@ public class BankServiceBalance {
         try {
 
             ProcessBuilder pb = new ProcessBuilder(
-                "/app/bin/cobol/balance"
+                "/app/cobol/bin/balance"
             );
 
             Process p = pb.start();
