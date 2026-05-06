@@ -5,17 +5,17 @@ import com.sun.jna.Native;
 
 public interface BankNativeLib extends Library {
 
-   BankNativeLib REGISTER_INSTANCE =
-        (BankNativeLib) Native.load(
+    BankNativeLib REGISTER_INSTANCE = (BankNativeLib) Native.load(
             "/app/cobol/bin/bankRegister.so",
-            BankNativeLib.class
-        );
+            BankNativeLib.class);
 
-    BankNativeLib BALANCE_INSTANCE =
-        (BankNativeLib) Native.load(
+    BankNativeLib BALANCE_INSTANCE = (BankNativeLib) Native.load(
             "/app/cobol/bin/balance.so",
-            BankNativeLib.class
-        );
+            BankNativeLib.class);
+
+    BankNativeLib DEPOSIT_INSTANCE = (BankNativeLib) Native.load(
+            "/app/cobol/bin/deposit.so",
+            BankNativeLib.class);
 
     void BALANCE(
             byte[] accountId,
@@ -25,5 +25,11 @@ public interface BankNativeLib extends Library {
     void REGISTER(
             byte[] name,
             byte[] pin,
+            byte[] result);
+
+    void DEPOSIT(
+            byte[] accountId,
+            byte[] password,
+            byte[] amount,
             byte[] result);
 }

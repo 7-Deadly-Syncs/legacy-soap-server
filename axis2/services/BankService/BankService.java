@@ -6,11 +6,11 @@ package axis2.services.BankService;
 
 public class BankService {
 
-    private BankServiceBalance balanceService =
-        new BankServiceBalance();
+    private BankServiceBalance balanceService = new BankServiceBalance();
 
-    private BankServiceRegister registerService =
-        new BankServiceRegister();
+    private BankServiceRegister registerService = new BankServiceRegister();
+
+    private BankServiceDeposit depositService = new BankServiceDeposit();
 
     public String balance(String acc, String pin) {
         return balanceService.balance(acc, pin);
@@ -18,5 +18,16 @@ public class BankService {
 
     public String register(String name, String pin) {
         return registerService.register(name, pin);
+    }
+
+    public String deposit(
+            String acc,
+            String pin,
+            String amount) {
+
+        return depositService.deposit(
+                acc,
+                pin,
+                amount);
     }
 }

@@ -30,14 +30,17 @@ WORKDIR /app
 COPY . .
 
 RUN mkdir -p cobol/bin && \
-    cobc -free -m cobol/src/balance.cbl -o cobol/bin/balance && \
-    cobc -free -m cobol/src/bankRegister.cbl -o cobol/bin/bankRegister
+    for file in cobol/src/*.cbl; do \
+        name=$(basename "$file" .cbl); \
+        cobc -free -m "$file" -o "cobol/bin/$name"; \
+    done
 
 RUN mkdir -p axis2/build/classes && \
     javac \
     -cp /opt/jna-5.13.0.jar \
     -d axis2/build/classes \
-    axis2/services/BankService/*.java
+    axis2/services/BankService/*.java \
+    axis2/services/utils/*.java
 
 RUN mkdir -p axis2/build/tmp/META-INF && \
     cp axis2/services/BankService/services.xml \
