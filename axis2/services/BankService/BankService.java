@@ -13,6 +13,8 @@ public class BankService {
 
     private BankServiceDeposit depositService = new BankServiceDeposit();
 
+    private BankServiceTransfer transferService = new BankServiceTransfer();
+
     public String balance(String acc, String pin) {
         return balanceService.balance(acc, pin);
     }
@@ -43,4 +45,18 @@ public class BankService {
                         email,
                         password);
     }
+
+    public String transfer(
+            String fromAccount,
+            String pin,
+            String toAccount,
+            String amount) {
+
+        return transferService.transfer(
+                fromAccount,
+                pin,
+                toAccount,
+                amount);
+    }
+
 }

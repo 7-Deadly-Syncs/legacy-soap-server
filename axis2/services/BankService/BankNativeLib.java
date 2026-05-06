@@ -24,6 +24,9 @@ public interface BankNativeLib extends Library {
         BankNativeLib GETBANKDETAILS_INSTANCE = (BankNativeLib) Native.load(
                         "/app/cobol/bin/getBankDetails.so",
                         BankNativeLib.class);
+        BankNativeLib TRANSFER_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/transfer.so",
+                        BankNativeLib.class);
 
         void BALANCE(
                         byte[] accountId,
@@ -46,5 +49,12 @@ public interface BankNativeLib extends Library {
         void GETBANKDETAILS(
                         byte[] email,
                         byte[] password,
+                        byte[] result);
+
+        void TRANSFER(
+                        byte[] fromAccount,
+                        byte[] pin,
+                        byte[] toAccount,
+                        byte[] amount,
                         byte[] result);
 }
