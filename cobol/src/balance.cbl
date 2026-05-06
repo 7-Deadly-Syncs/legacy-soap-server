@@ -16,3 +16,5 @@
            DISPLAY "BALANCE: " ACCOUNT-BALANCE
 
            STOP RUN.
+
+       END PROGRAM BALANCE.
