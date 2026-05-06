@@ -1,8 +1,4 @@
-init: bin run-detached
-
-bin:
-mkdir ./cobol/bin
-mkdir ./axis2/bin
+init: run-detached
 
 run:
 docker compose up
