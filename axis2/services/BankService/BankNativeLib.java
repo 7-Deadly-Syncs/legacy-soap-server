@@ -27,6 +27,9 @@ public interface BankNativeLib extends Library {
         BankNativeLib TRANSFER_INSTANCE = (BankNativeLib) Native.load(
                         "/app/cobol/bin/transfer.so",
                         BankNativeLib.class);
+        BankNativeLib LOGIN_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/login.so",
+                        BankNativeLib.class);
 
         void BALANCE(
                         byte[] accountId,
@@ -56,5 +59,10 @@ public interface BankNativeLib extends Library {
                         byte[] pin,
                         byte[] toAccount,
                         byte[] amount,
+                        byte[] result);
+
+        void LOGIN(
+                        byte[] email,
+                        byte[] password,
                         byte[] result);
 }

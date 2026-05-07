@@ -19,6 +19,8 @@ public class BankService {
         return balanceService.balance(acc, pin);
     }
 
+    private BankServiceLogin loginService = new BankServiceLogin();
+
     public String register(String name, String email, String password, String pin) {
 
         return registerService.register(
@@ -59,4 +61,12 @@ public class BankService {
                 amount);
     }
 
+    public String login(
+            String email,
+            String password) {
+
+        return loginService.login(
+                email,
+                password);
+    }
 }
