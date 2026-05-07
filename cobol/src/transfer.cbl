@@ -61,6 +61,8 @@
        01 WS-DESTINATION-FOUND       PIC X VALUE "N".
        01 WS-AUTHENTICATED           PIC X VALUE "N".
 
+       01 WS-CMD                     PIC X(200).
+
        LINKAGE SECTION.
 
        01 L-FROM-ACCOUNT             PIC X(20).
@@ -77,6 +79,33 @@
            L-TO-ACCOUNT
            L-AMOUNT
            L-RESULT.
+
+           MOVE "N"
+               TO WS-EOF-ACCOUNTS
+
+           MOVE "N"
+               TO WS-EOF-BALANCES
+
+           MOVE "N"
+               TO WS-SOURCE-FOUND
+
+           MOVE "N"
+               TO WS-DESTINATION-FOUND
+
+           MOVE "N"
+               TO WS-AUTHENTICATED
+
+           MOVE 0
+               TO WS-SOURCE-BALANCE
+
+           MOVE 0
+               TO WS-DESTINATION-BALANCE
+
+           MOVE 0
+               TO WS-BALANCE
+
+           MOVE 0
+               TO WS-AMOUNT
 
            MOVE FUNCTION NUMVAL(L-AMOUNT)
                TO WS-AMOUNT
@@ -279,9 +308,12 @@
            CLOSE BALANCES
            CLOSE TEMP-BALANCES
 
+           MOVE
+           "mv /app/data/balances.tmp /app/data/balances.dat"
+               TO WS-CMD
+
            CALL "SYSTEM"
-               USING
-               "mv /app/data/balances.tmp /app/data/balances.dat"
+               USING FUNCTION TRIM(WS-CMD)
 
            STRING
                "OK|"

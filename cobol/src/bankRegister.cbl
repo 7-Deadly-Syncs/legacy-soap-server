@@ -63,6 +63,15 @@
            L-PIN
            L-RESULT.
 
+           MOVE "N"
+               TO WS-EOF
+
+           MOVE 0
+               TO WS-LAST-ID
+
+           MOVE 0
+               TO WS-NEW-ID
+
            MOVE FUNCTION TRIM(L-NAME)
                TO WS-NAME
 

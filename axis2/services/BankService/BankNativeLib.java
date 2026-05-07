@@ -30,6 +30,9 @@ public interface BankNativeLib extends Library {
         BankNativeLib LOGIN_INSTANCE = (BankNativeLib) Native.load(
                         "/app/cobol/bin/login.so",
                         BankNativeLib.class);
+        BankNativeLib LOGOUT_INSTANCE = (BankNativeLib) Native.load(
+                        "/app/cobol/bin/logout.so",
+                        BankNativeLib.class);
 
         void BALANCE(
                         byte[] accountId,
@@ -64,5 +67,9 @@ public interface BankNativeLib extends Library {
         void LOGIN(
                         byte[] email,
                         byte[] password,
+                        byte[] result);
+
+        void LOGOUT(
+                        byte[] sessionId,
                         byte[] result);
 }

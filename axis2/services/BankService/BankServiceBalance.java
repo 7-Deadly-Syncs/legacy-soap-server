@@ -4,10 +4,6 @@ import axis2.services.utils.HashUtil;
 
 public class BankServiceBalance {
 
-    static {
-        CobLib.INSTANCE.cob_init(0, new String[0]);
-    }
-
     public String balance(
             String accountId,
             String password) {

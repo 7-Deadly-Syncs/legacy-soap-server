@@ -54,6 +54,15 @@
            L-PASSWORD
            L-RESULT.
 
+           MOVE "N"
+               TO WS-EOF-ACCOUNTS
+
+           MOVE "N"
+               TO WS-EOF-BALANCES
+
+           MOVE "N"
+               TO WS-AUTHENTICATED
+
            OPEN INPUT ACCOUNTS
 
            PERFORM UNTIL WS-EOF-ACCOUNTS = "Y"

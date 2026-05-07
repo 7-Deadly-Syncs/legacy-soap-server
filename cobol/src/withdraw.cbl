@@ -37,6 +37,8 @@
        01 WS-BALANCE                 PIC 9(9)V99.
        01 WS-AMOUNT                  PIC 9(9)V99.
 
+       01 WS-CMD                     PIC X(200).
+
        LINKAGE SECTION.
 
        01 L-ACCOUNT-ID               PIC X(20).
@@ -49,6 +51,15 @@
            L-PASSWORD
            L-AMOUNT
            L-RESULT.
+
+           MOVE "N"
+               TO EOF-FLAG
+
+           MOVE 0
+               TO WS-BALANCE
+
+           MOVE 0
+               TO WS-AMOUNT
 
            MOVE FUNCTION TRIM(L-AMOUNT)
                TO WS-AMOUNT-TEXT
@@ -125,8 +136,12 @@
            CLOSE ACCOUNT-FILE
            CLOSE TEMP-FILE
 
+           MOVE
+           "mv /app/data/accounts.tmp /app/data/accounts.dat"
+               TO WS-CMD
+
            CALL "SYSTEM"
-               USING "mv /app/data/accounts.tmp /app/data/accounts.dat"
+               USING FUNCTION TRIM(WS-CMD)
 
            GOBACK.
 

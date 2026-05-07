@@ -9,10 +9,6 @@ import java.security.SecureRandom;
 
 public class BankServiceLogin {
 
-    static {
-        CobLib.INSTANCE.cob_init(0, new String[0]);
-    }
-
     private static final SecureRandom random =
         new SecureRandom();
 

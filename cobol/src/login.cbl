@@ -41,6 +41,9 @@
            L-PASSWORD
            L-RESULT.
 
+           MOVE "N"
+               TO WS-EOF
+
            OPEN INPUT ACCOUNTS
 
            PERFORM UNTIL WS-EOF = "Y"
