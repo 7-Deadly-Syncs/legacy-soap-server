@@ -18,7 +18,7 @@ public class BankService {
         private BankServiceLogout logoutService = new BankServiceLogout();
 
         private BankServiceLogin loginService = new BankServiceLogin();
-        
+        private BankServiceGetAccountProfile getAccountProfileService = new BankServiceGetAccountProfile();
 
         public String balance(String acc, String pin) {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
@@ -80,5 +80,12 @@ public class BankService {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
                 return logoutService.logout(
                                 sessionId);
+        }
+
+        public String getAccountProfile(
+                        String accountId) {
+                CobLib.INSTANCE.cob_init(0, new String[0]);
+                return getAccountProfileService
+                                .getAccountProfile(accountId);
         }
 }
