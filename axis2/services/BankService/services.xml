@@ -39,5 +39,8 @@
         <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
     </operation>
 
+    <operation name="qris">
+        <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+    </operation>
 
 </service>

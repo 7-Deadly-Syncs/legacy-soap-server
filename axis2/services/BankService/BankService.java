@@ -18,7 +18,10 @@ public class BankService {
         private BankServiceLogout logoutService = new BankServiceLogout();
 
         private BankServiceLogin loginService = new BankServiceLogin();
+
         private BankServiceGetAccountProfile getAccountProfileService = new BankServiceGetAccountProfile();
+
+        private BankServiceQris qrisService = new BankServiceQris();
 
         public String balance(String acc, String pin) {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
@@ -87,5 +90,10 @@ public class BankService {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
                 return getAccountProfileService
                                 .getAccountProfile(accountId);
+        }
+
+        public String qris(String accountId, String merchantId, String amount) {
+                CobLib.INSTANCE.cob_init(0, new String[0]);
+                return qrisService.qris(accountId, merchantId, amount);
         }
 }
