@@ -4,6 +4,7 @@ create-data-dir:
 	touch data/sessions.dat
 	touch data/balances.dat
 	touch data/accounts.dat
+	touch data/qris_transaction.dat
 
 run:
 	docker compose up
