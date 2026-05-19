@@ -1,13 +1,20 @@
 services:
-
   bank:
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
-      - "8081:8080"
+      - "8081 :8080"
     volumes:
-      - ./cobol/src:/app/cobol/src
-      - ./axis2:/app/axis2
-      - ./data:/app/data
-    command: /opt/apache-tomcat-8.5.96/bin/catalina.sh run
+      - bank_data:/app/data
+    command: >
+      /bin/bash -lc "
+      mkdir -p /app/data &&
+      touch /app/data/sessions.dat /app/data/balances.dat /app/data/accounts.dat /app/data/qris_transaction.dat &&
+      /opt/apache-tomcat-8.5.96/bin/catalina.sh run
+      "
+    restart: unless-stopped
+
+volumes:
+  bank_data:
 
