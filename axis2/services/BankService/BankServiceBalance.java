@@ -5,26 +5,20 @@ import axis2.services.utils.HashUtil;
 public class BankServiceBalance {
 
     public String balance(
-            String accountId,
+            String rekening,
             String password) {
 
-        try {
+        byte[] result = new byte[100];
 
-            byte[] result = new byte[100];
+        String hashedPassword =
+            HashUtil.sha256(password);
 
-            String hashedPassword =
-                HashUtil.sha256(password);
+        BankNativeLib.BALANCE_INSTANCE.BALANCE(
+            String.format("%-16s", rekening).getBytes(),
+            String.format("%-64s", hashedPassword).getBytes(),
+            result
+        );
 
-            BankNativeLib.BALANCE_INSTANCE.BALANCE(
-                String.format("%-20s", accountId).getBytes(),
-                String.format("%-64s", hashedPassword).getBytes(),
-                result
-            );
-
-            return new String(result).trim();
-
-        } catch (Exception e) {
-            return "ERROR: " + e.getMessage();
-        }
+        return new String(result).trim();
     }
 }
