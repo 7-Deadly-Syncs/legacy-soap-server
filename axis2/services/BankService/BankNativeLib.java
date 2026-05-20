@@ -55,8 +55,8 @@ public interface BankNativeLib extends Library {
                         byte[] result);
 
         void DEPOSIT(
-                        byte[] accountId,
-                        byte[] password,
+                        byte[] rekening,
+                        byte[] pin,
                         byte[] amount,
                         byte[] result);
 

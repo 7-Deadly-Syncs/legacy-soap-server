@@ -36,6 +36,7 @@
        01 WS-EOF-BALANCES            PIC X VALUE "N".
 
        01 WS-ACCOUNT-ID              PIC X(12).
+       01 WS-REKENING                PIC X(16).
        01 WS-CUSTOMER-ID             PIC X(12).
        01 WS-EMAIL                   PIC X(100).
        01 WS-NAME                    PIC X(50).
@@ -43,7 +44,7 @@
        01 WS-PASSWORD                PIC X(64).
        01 WS-PIN                     PIC X(64).
 
-       01 WS-BALANCE-ACCOUNT         PIC X(12).
+       01 WS-BALANCE-REKENING        PIC X(16).
 
        01 WS-BALANCE-TEXT            PIC X(20).
        01 WS-AMOUNT-TEXT             PIC X(20).
@@ -57,13 +58,13 @@
 
        LINKAGE SECTION.
 
-       01 L-ACCOUNT-ID               PIC X(20).
+       01 L-REKENING                 PIC X(16).
        01 L-PIN                      PIC X(64).
        01 L-AMOUNT                   PIC X(20).
        01 L-RESULT                   PIC X(100).
 
        PROCEDURE DIVISION USING
-           L-ACCOUNT-ID
+           L-REKENING
            L-PIN
            L-AMOUNT
            L-RESULT.
@@ -104,14 +105,15 @@
                            DELIMITED BY "|"
                            INTO
                                WS-ACCOUNT-ID
+                               WS-REKENING
                                WS-CUSTOMER-ID
                                WS-EMAIL
                                WS-NAME
                                WS-PASSWORD
                                WS-PIN
 
-                       IF FUNCTION TRIM(WS-ACCOUNT-ID)
-                           = FUNCTION TRIM(L-ACCOUNT-ID)
+                       IF FUNCTION TRIM(WS-REKENING)
+                           = FUNCTION TRIM(L-REKENING)
 
                            IF FUNCTION TRIM(WS-PIN)
                                = FUNCTION TRIM(L-PIN)
@@ -165,28 +167,28 @@
                        UNSTRING BALANCE-RECORD
                            DELIMITED BY "|"
                            INTO
-                               WS-BALANCE-ACCOUNT
+                               WS-BALANCE-REKENING
                                WS-BALANCE-TEXT
 
                        MOVE FUNCTION TRIM(WS-BALANCE-TEXT)
                            TO WS-BALANCE
 
-                       IF FUNCTION TRIM(WS-BALANCE-ACCOUNT)
-                           = FUNCTION TRIM(L-ACCOUNT-ID)
+                       IF FUNCTION TRIM(WS-BALANCE-REKENING)
+                           = FUNCTION TRIM(L-REKENING)
 
                            ADD WS-AMOUNT
                                TO WS-BALANCE
 
                            STRING
                                "OK|"
-                               FUNCTION TRIM(WS-BALANCE-ACCOUNT)
+                               FUNCTION TRIM(WS-BALANCE-REKENING)
                                "|"
                                WS-BALANCE
                                INTO L-RESULT
                        END-IF
 
                        STRING
-                           FUNCTION TRIM(WS-BALANCE-ACCOUNT)
+                           FUNCTION TRIM(WS-BALANCE-REKENING)
                            "|"
                            WS-BALANCE
                            INTO TEMP-BALANCE-RECORD
