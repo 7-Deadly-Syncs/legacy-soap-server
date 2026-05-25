@@ -21,6 +21,7 @@
        01 WS-EOF                     PIC X VALUE "N".
 
        01 WS-ACCOUNT-ID              PIC X(12).
+       01 WS-REKENING                PIC X(16).
        01 WS-CUSTOMER-ID             PIC X(12).
 
        01 WS-EMAIL                   PIC X(100).
@@ -64,6 +65,7 @@
                            DELIMITED BY "|"
                            INTO
                                WS-ACCOUNT-ID
+                               WS-REKENING
                                WS-CUSTOMER-ID
                                WS-EMAIL
                                WS-NAME
@@ -81,6 +83,8 @@
                                    FUNCTION TRIM(WS-CUSTOMER-ID)
                                    "|"
                                    FUNCTION TRIM(WS-ACCOUNT-ID)
+                                   "|"
+                                   FUNCTION TRIM(WS-REKENING)
                                    "|"
                                    FUNCTION TRIM(WS-NAME)
                                    INTO L-RESULT
