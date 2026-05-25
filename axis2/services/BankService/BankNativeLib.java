@@ -83,6 +83,7 @@ public interface BankNativeLib extends Library {
 
         void GETACCOUNTPROFILE(
                         byte[] accountId,
+                        byte[] password,
                         byte[] result);
 
         void QRIS(

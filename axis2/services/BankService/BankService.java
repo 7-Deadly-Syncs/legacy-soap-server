@@ -86,10 +86,11 @@ public class BankService {
         }
 
         public String getAccountProfile(
-                        String accountId) {
+                        String accountId,
+                        String password) {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
                 return getAccountProfileService
-                                .getAccountProfile(accountId);
+                                .getAccountProfile(accountId, password);
         }
 
         public String qris(String accountId, String merchantId, String amount) {

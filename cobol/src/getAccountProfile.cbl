@@ -19,8 +19,10 @@
        WORKING-STORAGE SECTION.
 
        01 WS-EOF                     PIC X VALUE "N".
+       01 WS-AUTHENTICATED           PIC X VALUE "N".
 
        01 WS-ACCOUNT-ID              PIC X(12).
+       01 WS-REKENING                PIC X(16).
        01 WS-CUSTOMER-ID             PIC X(12).
 
        01 WS-EMAIL                   PIC X(100).
@@ -32,14 +34,19 @@
        LINKAGE SECTION.
 
        01 L-ACCOUNT-ID               PIC X(20).
+       01 L-PASSWORD                 PIC X(64).
        01 L-RESULT                   PIC X(200).
 
        PROCEDURE DIVISION USING
            L-ACCOUNT-ID
+           L-PASSWORD
            L-RESULT.
 
            MOVE "N"
                TO WS-EOF
+
+           MOVE "N"
+               TO WS-AUTHENTICATED
 
            OPEN INPUT ACCOUNTS
 
@@ -61,6 +68,7 @@
                            DELIMITED BY "|"
                            INTO
                                WS-ACCOUNT-ID
+                               WS-REKENING
                                WS-CUSTOMER-ID
                                WS-EMAIL
                                WS-NAME
@@ -70,17 +78,34 @@
                        IF FUNCTION TRIM(WS-ACCOUNT-ID)
                            = FUNCTION TRIM(L-ACCOUNT-ID)
 
-                           STRING
-                               "OK|"
-                               FUNCTION TRIM(WS-CUSTOMER-ID)
-                               "|"
-                               FUNCTION TRIM(WS-ACCOUNT-ID)
-                               "|"
-                               FUNCTION TRIM(WS-NAME)
-                               INTO L-RESULT
+                           IF FUNCTION TRIM(WS-PASSWORD)
+                               = FUNCTION TRIM(L-PASSWORD)
+
+                               MOVE "Y"
+                                   TO WS-AUTHENTICATED
+
+                               STRING
+                                   "OK|"
+                                   FUNCTION TRIM(WS-CUSTOMER-ID)
+                                   "|"
+                                   FUNCTION TRIM(WS-ACCOUNT-ID)
+                                   "|"
+                                   FUNCTION TRIM(WS-REKENING)
+                                   "|"
+                                   FUNCTION TRIM(WS-NAME)
+                                   INTO L-RESULT
+
+                           ELSE
+
+                               MOVE
+                                   "ERR|INVALID_PASSWORD"
+                                   TO L-RESULT
+
+                           END-IF
 
                            MOVE "Y"
                                TO WS-EOF
+
                        END-IF
 
                END-READ
@@ -88,6 +113,18 @@
            END-PERFORM
 
            CLOSE ACCOUNTS
+
+           IF WS-AUTHENTICATED NOT = "Y"
+
+               IF FUNCTION TRIM(L-RESULT) = ""
+
+                   MOVE
+                       "ERR|NO_ACCOUNT"
+                       TO L-RESULT
+
+               END-IF
+
+           END-IF
 
            GOBACK.
 
