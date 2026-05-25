@@ -66,9 +66,9 @@ public interface BankNativeLib extends Library {
                         byte[] result);
 
         void TRANSFER(
-                        byte[] fromAccount,
+                        byte[] fromRekening,
                         byte[] pin,
-                        byte[] toAccount,
+                        byte[] toRekening,
                         byte[] amount,
                         byte[] result);
 
