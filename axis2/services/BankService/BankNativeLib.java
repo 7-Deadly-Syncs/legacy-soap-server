@@ -87,7 +87,7 @@ public interface BankNativeLib extends Library {
                         byte[] result);
 
         void QRIS(
-                        byte[] accountId,
+                        byte[] rekening,
                         byte[] merchantId,
                         byte[] amount,
                         byte[] result);
