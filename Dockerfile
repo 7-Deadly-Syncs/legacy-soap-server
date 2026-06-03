@@ -57,5 +57,8 @@ RUN chmod +x cobol/bin/*
 
 EXPOSE 8080
 
-CMD ["/bin/bash", "-lc", "mkdir -p /app/data && touch /app/data/sessions.dat /app/data/balances.dat /app/data/accounts.dat /app/data/qris_transaction.dat && /opt/apache-tomcat-8.5.96/bin/catalina.sh run"]
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 
+RUN chmod +x /app/docker-entrypoint.sh
+
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
