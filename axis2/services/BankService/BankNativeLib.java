@@ -42,6 +42,9 @@ public interface BankNativeLib extends Library {
                         "/app/cobol/bin/qris.so",
                         BankNativeLib.class);
 
+        BankNativeLib GETQRISMERCHANT_INSTANCE = (BankNativeLib) Native.load("/app/cobol/bin/getQrisMerchant.so",
+                        BankNativeLib.class);
+
         void BALANCE(
                         byte[] rekening,
                         byte[] password,
@@ -91,4 +94,9 @@ public interface BankNativeLib extends Library {
                         byte[] merchantId,
                         byte[] amount,
                         byte[] result);
+
+        void GETQRISMERCHANT(
+                        byte[] merchantId, 
+                        byte[] result);
+
 }

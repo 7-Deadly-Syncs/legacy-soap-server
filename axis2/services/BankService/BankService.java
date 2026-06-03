@@ -23,6 +23,8 @@ public class BankService {
 
         private BankServiceQris qrisService = new BankServiceQris();
 
+        private BankServiceGetQrisMerchant getQrisMerchantService = new BankServiceGetQrisMerchant();
+
         public String balance(String acc, String pin) {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
                 return balanceService.balance(acc, pin);
@@ -97,4 +99,8 @@ public class BankService {
                 CobLib.INSTANCE.cob_init(0, new String[0]);
                 return qrisService.qris(accountId, merchantId, amount);
         }
+        public String getQrisMerchant(String merchantId) {
+        CobLib.INSTANCE.cob_init(0, new String[0]);
+        return getQrisMerchantService.getQrisMerchant(merchantId);
+    }
 }
