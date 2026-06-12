@@ -6,16 +6,16 @@ public class BankServiceBalance {
 
     public String balance(
             String rekening,
-            String password) {
+            String pin) {
 
         byte[] result = new byte[100];
 
-        String hashedPassword =
-            HashUtil.sha256(password);
+        String hashedPin =
+            HashUtil.sha256(pin);
 
         BankNativeLib.BALANCE_INSTANCE.BALANCE(
             String.format("%-16s", rekening).getBytes(),
-            String.format("%-64s", hashedPassword).getBytes(),
+            String.format("%-64s", hashedPin).getBytes(),
             result
         );
 

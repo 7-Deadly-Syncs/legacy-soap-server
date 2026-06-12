@@ -87,7 +87,7 @@
                        IF FUNCTION TRIM(WS-REKENING)
                            = FUNCTION TRIM(L-REKENING)
 
-                           IF FUNCTION TRIM(WS-PASSWORD)
+                           IF FUNCTION TRIM(WS-PIN)
                                = FUNCTION TRIM(L-PASSWORD)
 
                                MOVE "Y"
@@ -96,7 +96,7 @@
                            ELSE
 
                                MOVE
-                                   "ERR|INVALID_PASSWORD"
+                                   "ERR|INVALID_PIN"
                                    TO L-RESULT
 
                                CLOSE ACCOUNTS

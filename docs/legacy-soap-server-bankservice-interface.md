@@ -440,3 +440,4 @@ Response:
 - Most service methods return the backend string after trimming it.
 - `login` is special: on success it returns a generated session id and expiry timestamp.
 - `getBankDetails` and `getQrisMerchant` explicitly return `ERROR: ...` on exception.
+- `balance` now authenticates the account using the stored transaction PIN hash, which aligns with the current DANTE balance integration. `transfer` already uses the transaction PIN, while `qris` only checks account existence and funds.
