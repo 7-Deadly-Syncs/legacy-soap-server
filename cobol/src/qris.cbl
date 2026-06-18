@@ -56,6 +56,7 @@
 
        01 WS-SOURCE-FOUND PIC X VALUE "N".
        01 WS-STATUS PIC X(30) VALUE SPACES.
+       01 WS-BALANCE-DISPLAY PIC Z(9)9.99.
 
        01 WS-CMD PIC X(200).
        01 WS-LINE PIC X(200).
@@ -220,10 +221,14 @@
 
                        END-IF
        
+                       MOVE WS-NEW-BALANCE
+                           TO WS-BALANCE-DISPLAY
+
+                       MOVE SPACES TO TEMP-BALANCE-RECORD
                        STRING
                            FUNCTION TRIM(WS-BALANCE-REKENING)
                            "|"
-                           FUNCTION TRIM(WS-NEW-BALANCE)
+                           FUNCTION TRIM(WS-BALANCE-DISPLAY)
                            INTO TEMP-BALANCE-RECORD
                        END-STRING
 

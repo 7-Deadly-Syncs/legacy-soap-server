@@ -275,6 +275,7 @@
                            MOVE WS-SOURCE-BALANCE
                                TO WS-BALANCE-DISPLAY
 
+                           MOVE SPACES TO WS-BALANCE-TEXT
                            STRING
                                FUNCTION TRIM(
                                    WS-BALANCE-DISPLAY)
@@ -288,6 +289,7 @@
                            MOVE WS-DESTINATION-BALANCE
                                TO WS-BALANCE-DISPLAY
 
+                           MOVE SPACES TO WS-BALANCE-TEXT
                            STRING
                                FUNCTION TRIM(
                                    WS-BALANCE-DISPLAY)
@@ -295,6 +297,7 @@
                            END-STRING
                        END-IF
 
+                       MOVE SPACES TO TEMP-BALANCE-RECORD
                        STRING
                            FUNCTION TRIM(WS-BALANCE-REKENING)
                            "|"

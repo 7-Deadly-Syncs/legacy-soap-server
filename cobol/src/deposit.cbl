@@ -54,6 +54,7 @@
 
        01 WS-AUTHENTICATED           PIC X VALUE "N".
 
+       01 WS-BALANCE-DISPLAY         PIC Z(9)9.99.
        01 WS-CMD                     PIC X(200).
 
        LINKAGE SECTION.
@@ -170,7 +171,7 @@
                                WS-BALANCE-REKENING
                                WS-BALANCE-TEXT
 
-                       MOVE FUNCTION TRIM(WS-BALANCE-TEXT)
+                       MOVE FUNCTION NUMVAL(WS-BALANCE-TEXT)
                            TO WS-BALANCE
 
                        IF FUNCTION TRIM(WS-BALANCE-REKENING)
@@ -179,18 +180,23 @@
                            ADD WS-AMOUNT
                                TO WS-BALANCE
 
+                           MOVE WS-BALANCE
+                               TO WS-BALANCE-DISPLAY
+
                            STRING
                                "OK|"
                                FUNCTION TRIM(WS-BALANCE-REKENING)
                                "|"
-                               WS-BALANCE
+                               FUNCTION TRIM(WS-BALANCE-DISPLAY)
                                INTO L-RESULT
                        END-IF
 
+                       MOVE WS-BALANCE TO WS-BALANCE-DISPLAY
+                       MOVE SPACES TO TEMP-BALANCE-RECORD
                        STRING
                            FUNCTION TRIM(WS-BALANCE-REKENING)
                            "|"
-                           WS-BALANCE
+                           FUNCTION TRIM(WS-BALANCE-DISPLAY)
                            INTO TEMP-BALANCE-RECORD
 
                        WRITE TEMP-BALANCE-RECORD

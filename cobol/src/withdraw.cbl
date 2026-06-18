@@ -36,6 +36,7 @@
 
        01 WS-BALANCE                 PIC 9(9)V99.
        01 WS-AMOUNT                  PIC 9(9)V99.
+       01 WS-BALANCE-DISPLAY         PIC Z(9)9.99.
 
        01 WS-CMD                     PIC X(200).
 
@@ -86,7 +87,7 @@
                                WS-PIN
                                WS-BALANCE-TEXT
 
-                       MOVE FUNCTION TRIM(WS-BALANCE-TEXT)
+                       MOVE FUNCTION NUMVAL(WS-BALANCE-TEXT)
                            TO WS-BALANCE
 
                        IF FUNCTION TRIM(WS-ACCOUNT)
@@ -100,9 +101,12 @@
                                    SUBTRACT WS-AMOUNT
                                        FROM WS-BALANCE
 
+                                   MOVE WS-BALANCE
+                                       TO WS-BALANCE-DISPLAY
+
                                    STRING
                                        "OK|"
-                                       WS-BALANCE
+                                       FUNCTION TRIM(WS-BALANCE-DISPLAY)
                                        INTO L-RESULT
 
                                ELSE
@@ -117,6 +121,8 @@
                            END-IF
                        END-IF
 
+                       MOVE WS-BALANCE TO WS-BALANCE-DISPLAY
+                       MOVE SPACES TO TEMP-RECORD
                        STRING
                            FUNCTION TRIM(WS-ACCOUNT)
                            "|"
@@ -124,7 +130,7 @@
                            "|"
                            FUNCTION TRIM(WS-PIN)
                            "|"
-                           WS-BALANCE
+                           FUNCTION TRIM(WS-BALANCE-DISPLAY)
                            INTO TEMP-RECORD
 
                        WRITE TEMP-RECORD
