@@ -183,6 +183,7 @@
 
                                CLOSE BALANCES
                                CLOSE TEMP-BALANCES
+                               CLOSE TX-FILE
 
                                GOBACK
 
