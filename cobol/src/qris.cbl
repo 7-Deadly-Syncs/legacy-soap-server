@@ -250,6 +250,8 @@
                    "OK|"
                    FUNCTION TRIM(L-REKENING)
                    "|"
+                   FUNCTION TRIM(L-MERCHANT-ID)
+                   "|"
                    FUNCTION TRIM(L-AMOUNT)
                    INTO L-RESULT
                END-STRING
