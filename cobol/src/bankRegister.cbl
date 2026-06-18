@@ -202,7 +202,7 @@
 
            STRING
                FUNCTION TRIM(WS-REKENING)
-               "|0"
+               "|100000000"
                INTO BALANCE-RECORD
 
            WRITE BALANCE-RECORD
